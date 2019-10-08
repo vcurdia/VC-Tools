@@ -1,15 +1,18 @@
 # VC-Tools
 
 [![License](https://img.shields.io/badge/license-BSD%203--clause-green.svg)](https://github.com/vcurdia/VC-Tools/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/badge/GitHub-v3.0.3-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.0.3)
+[![GitHub release](https://img.shields.io/badge/GitHub-v3.1.0-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.1.0)
 
 Miscellaneous Matlab (R) tools
+
+These codes are available online at:
+https://github.com/vcurdia/VC-Tools
 
 
 # Requirements
 
 ## Matlab
-Most codes were tested with Matlab (R) R1016b with the following toolboxes
+Most codes were tested with Matlab (R) R2018a with the following toolboxes
 - Symbolic Toolbox
 - Statistical Toolbox
 - Optimization Toolbox
