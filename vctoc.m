@@ -45,7 +45,7 @@ rElapsed = sElapsed - fix(sElapsed);
 sElapsed = sElapsed - rElapsed;
 rElapsed = fix(100*rElapsed);
 
-txt = 'Elapsed time is';
+txt = 'Elapsed time ';
 if hElapsed>0, txt = sprintf('%s %.0fh',txt,hElapsed); end
 if (mElapsed>0)||(hElapsed>0), txt = sprintf('%s %.0fm',txt,mElapsed); end
 txt = sprintf('%s %.0fs %02.0f',txt,sElapsed,rElapsed);

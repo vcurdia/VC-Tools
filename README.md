@@ -1,7 +1,7 @@
 # VC-Tools
 
 [![License](https://img.shields.io/badge/license-BSD%203--clause-green.svg)](https://github.com/vcurdia/VC-Tools/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/badge/version-v3.0.3-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.0.3)
+[![GitHub release](https://img.shields.io/badge/GitHub-v3.0.3-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.0.3)
 
 Miscellaneous Matlab (R) tools
 

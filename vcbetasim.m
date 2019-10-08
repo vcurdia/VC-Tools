@@ -10,7 +10,8 @@ function [alpha,betta]=vcbetasim(ex,vx,bin)
 
 %--------------------------------------------------------------------------
 
-syms alpha betta
+alpha = sym('alpha');
+betta = sym('betta');
 eq=[ex-alpha/(alpha+betta); 
     vx-alpha*betta/((alpha+betta)^2*(alpha+betta+1))];
 [alpha,betta]=solve(eq(1),eq(2),alpha,betta);

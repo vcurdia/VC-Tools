@@ -51,7 +51,7 @@ if ~exist('realsmall','var') || isempty(realsmall)
 end
 
 if ~exist('UsePinv','var') || isempty(UsePinv)
-    UsePinv = 1;
+    UsePinv = 0;
 end
 
 eu=[0;0];

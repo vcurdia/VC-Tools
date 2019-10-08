@@ -13,6 +13,14 @@ function op = updateoptions(op,varargin)
 
 opfields = fieldnames(op);
 
+if length(varargin)==0, 
+    return
+end
+
+if isempty(varargin{1})
+    varargin(1) = [];
+end
+
 if length(varargin)>0 && isstruct(varargin{1})
     opnew = varargin{1};
     opnewfields = fieldnames(opnew);

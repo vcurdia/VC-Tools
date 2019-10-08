@@ -17,7 +17,8 @@ function [alpha,beta]=vcigammasim(ex,vx,bin)
 
 %% ========================================================================
 
-syms alpha beta
+alpha = sym('alpha');
+beta = sym('beta');
 eq=[ex-1/beta/(alpha-1); 
     vx-1/(beta^2*(alpha-1)^2*(alpha-2))];
 

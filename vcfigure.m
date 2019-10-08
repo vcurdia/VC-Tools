@@ -94,8 +94,8 @@ op.YGrid = [];
 op.AxesFontSize = [];
 op.SupTitle = [];
 op.SupTitleFontSize = [];
-% op.PaperSize = [6.5, 6.5];
-op.PaperSize = [];
+op.PaperSize = [6.5, 6.5];
+% op.PaperSize = [];
 op.PaperPosition = [];
 op.TightFig = 1;
 op.TightFigOptions = struct;
@@ -229,6 +229,9 @@ for jPlot=1:nPlots
     if op.ShowRecessionShades
         h.RecessionShades(jPlot) = ...
             recessionshades(op.RecessionShades,op.RecessionShadesOptions{:});
+        if jPlot==nPlots && op.Plot.ShowLegend
+            h.Plot(nPlots).Legend.String = h.Plot(nPlots).Legend.String(1:end-2);
+        end
     end
 %     ax = gca;
 %     outerpos = ax.OuterPosition;
