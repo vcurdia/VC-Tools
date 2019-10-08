@@ -1,4 +1,4 @@
--Tools
+VC-Tools
 
 [![License](https://img.shields.io/badge/license-BSD%203--clause-green.svg)](https://github.com/vcurdia/VC-Tools/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/badge/GitHub-v3.1.0-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.1.0)
