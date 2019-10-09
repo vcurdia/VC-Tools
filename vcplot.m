@@ -48,15 +48,15 @@ end
 [ny,nx] = size(y);
 
 %% Default options
-op.Color = colorscheme;
-op.LineStyle = {'-','--','-.',':',':',':'};
-op.LineMarker = {'none','none','none','o','s','^'};
-% op.LineStyle = {'-','--','-','-','none'};
-% op.LineMarker = {'none','none','o','s','^'};
-% op.LineMarkerSize = [2,2,2,2,2,2];
-% op.LineWidth = [1.5,1.5,1.5,0.5,0.5,0.5];
-op.LineMarkerSize = [1,1,1,2,2,2];
-op.LineWidth = [1,1,1,0.5,0.5,0.5];
+op.Color = colorscheme('nColors',ny);
+% op.LineStyle = {'-','--','-.',':',':',':'};
+op.LineStyle = repmat({'-'},1,ny);
+% op.LineMarker = {'none','none','none','o','s','^'};
+op.LineMarker = repmat({'none'},1,ny);
+% op.LineMarkerSize = [1,1,1,2,2,2];
+op.LineMarkerSize = ones(1,ny);
+% op.LineWidth = [1,1,1,0.5,0.5,0.5];
+op.LineWidth = ones(1,ny);
 op.ShowZeroLine = 1;
 op.ZeroLineColor = 'k';
 op.ZeroLineStyle = '-';

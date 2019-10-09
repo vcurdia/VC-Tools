@@ -44,7 +44,7 @@ function [G1,C,impact,fmat,fwt,ywt,gev,eu,loose]=gensysvb(...
 %------------------------------------------------------------------------------
 
 if nargin<6 || isempty(fid), fid = 1; end
-if nargin<7 || isempty(verbose), verbose = 1; end
+if nargin<7 || isempty(verbose), verbose = 0; end
 
 % div=1.01;
 fixdiv = exist('div','var') && ~isempty(div);

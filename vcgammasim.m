@@ -16,7 +16,8 @@ function [alpha,betta]=vcgammasim(ex,vx,bin)
 
 %% ========================================================================
 
-syms alpha betta
+alpha = sym('alpha');
+betta = sym('betta');
 eq=[ex-betta*alpha; 
     vx-alpha*betta^2];
 [alpha,betta]=solve(eq(1),eq(2),alpha,betta);

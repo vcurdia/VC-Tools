@@ -134,15 +134,15 @@ op.x0 = x0;
 op.H0 = eye(length(x0));
 op.grad = [];
 op.crit = 1e-7;
-op.nit = 1000;
+op.nit = 500;
 op.verbose = 1;
 op.varargin = {};
 
 % parameters needed for robustness part
 op.Rcrit = 1e-7;
-op.Ritmax = 30;
-op.Ritmin = 10;
-op.Ritnoimp = 5;
+op.Ritmax = 10;
+op.Ritmin = 3;
+op.Ritnoimp = 3;
 op.RH0 = 1;
 op.Rscaledown = 0.25;
 

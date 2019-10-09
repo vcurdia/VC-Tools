@@ -36,15 +36,15 @@ function [XTick,XTickLabel] = setticklabel(tid,varargin)
 %% options
 op.Labels = [];
 op.Ticks = [];
-op.AnnualTicks = 0;
-op.HideQuarters = 1;
+op.AnnualTicks = 1;
+op.HideQuarters = 0;
 
 op = updateoptions(op,varargin{:});
 
 %% Use only labels present in tid
 if isempty(op.Labels)
-    q1 = findquarter(tid);
-    labels = tid(q1([1,end]));
+    qtid = findquarter(tid);
+    labels = tid(qtid([1,end]));
 else
     labels = tid(ismember(tid,op.Labels));
 end
@@ -55,7 +55,7 @@ if isempty(op.Ticks)
     if op.AnnualTicks
         for j=1:4
             idx = findquarter(labels,j);
-            tf = all(idx);
+            tf = ~isempty(idx) && length(idx)==length(labels);
             if tf
                 q = j;
                 break
