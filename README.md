@@ -1,6 +1,6 @@
 # VC-Tools
 
-[![License](https://img.shields.io/badge/license-BSD%203--clause-green.svg)](https://github.com/vcurdia/VC-Tools/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-BSD%203--clause-green.svg)](./LICENSE)
 [![Release](https://img.shields.io/badge/Release-3.1.0-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.1.0)
 
 Miscellaneous Matlab (R) scripts and functions
@@ -30,8 +30,4 @@ Codes from [Chris Sims](http://www.princeton.edu/~sims/):
 - [KF](http://sims.princeton.edu/yftp/Times09/KFmatlab/)
 
 
-## License
-
-Copyright (c) 2002-2019, Vasco Cúrdia: BSD-3 All rights reserved.  
-See [LICENSE](./LICENSE) file for details.
 
