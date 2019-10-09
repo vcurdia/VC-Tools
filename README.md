@@ -1,7 +1,7 @@
 # VC-Tools
 
 [![License](https://img.shields.io/badge/license-BSD%203--clause-green.svg)](https://github.com/vcurdia/VC-Tools/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/badge/GitHub-v3.1.0-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.1.0)
+[![Release](https://img.shields.io/badge/Release-3.1.0-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.1.0)
 
 Miscellaneous Matlab (R) tools
 
@@ -9,20 +9,20 @@ These codes are available online at:
 https://github.com/vcurdia/VC-Tools
 
 
-# Requirements
+## Requirements
 
-## Matlab
+### Matlab
 Most codes were tested with Matlab (R) R2018a with the following toolboxes
 - Symbolic Toolbox
 - Statistical Toolbox
 - Optimization Toolbox
 
-## LaTeX
+### LaTeX
 LaTeX is used by some tools to compile certain documents.
 
 `epstopdf`, included in most LaTeX releases, is used by some tools.
 
-## Additional codes and packages
+### Additional codes and packages
 
 Codes from [Chris Sims](http://www.princeton.edu/~sims/):
 - [gensys](http://sims.princeton.edu/yftp/gensys/)
@@ -30,23 +30,23 @@ Codes from [Chris Sims](http://www.princeton.edu/~sims/):
 - [KF](http://sims.princeton.edu/yftp/Times09/KFmatlab/)
 
 
-# License
+## License
 
 Copyright (c) 2002-2019, Vasco Cúrdia: BSD-3 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
-* Redistributions of source code must retain the above copyright notice, this
-  list of conditions and the following disclaimer.
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
 
-* Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
 
-* Neither the name of the copyright holder nor the names of its
-  contributors may be used to endorse or promote products derived from
-  this software without specific prior written permission.
+3. Neither the name of the copyright holder nor the names of its contributors
+  may be used to endorse or promote products derived from this software without
+  specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
