@@ -1,7 +1,7 @@
 # VC-Tools
 
 [![License](https://img.shields.io/badge/License-BSD%203--clause-green.svg)](./LICENSE)
-[![Release](https://img.shields.io/badge/Release-3.1.0-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.1.0)
+[![Release](https://img.shields.io/badge/Release-3.1.1-blue.svg)](https://github.com/vcurdia/VC-Tools/releases/tag/v3.1.1)
 
 Miscellaneous Matlab (R) scripts and functions
 
