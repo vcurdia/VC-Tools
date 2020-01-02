@@ -18,7 +18,15 @@ if ~exist('fTitle','var'), fTitle = ''; end
 fTitle = strrep(fTitle,'_',' ');
 
 fprintf(fid,'\\newcommand{\\MyTitle}{%s}\n',fTitle);
-fprintf(fid,'\\newcommand{\\MyShortTitle}{%s}\n\n',strrep(fTitle,'\\',' '));
+
+txt = fTitle;
+lb = strfind(txt,'\\[');
+rb = strfind(txt,'pt]')+2;
+for j=length(lb):-1:1
+    txt = strrep(txt,txt([lb(j):rb(j)]),' - ');
+end
+txt = strrep(txt,'\\',' - ');
+fprintf(fid,'\\newcommand{\\MyShortTitle}{%s}\n\n',txt);
 
 fprintf(fid,'\\usepackage{cmap}\n');
 fprintf(fid,'\\usepackage{amsfonts}\n');
