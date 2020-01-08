@@ -13,7 +13,11 @@ function vcdiary(str1,str2)
 % 
 % Copyright 2020 by Vasco Curdia
 
-    if nargin<1 || isempty(str1), str1 = 'diary'; end
+    if nargin<1 || isempty(str1)
+        str1 = ''; 
+    else 
+        str1 = ['-',str1];
+    end
     
     if nargin<2 || isempty(str2)
         str2 = '';
@@ -21,7 +25,7 @@ function vcdiary(str1,str2)
         str2 = ['-',str2];
     end
     
-    diary(sprintf('.%s-%.0f-%02.0f-%02.0f-%02.0f%02.0f%02.0f%s.txt',...
+    diary(sprintf('log%s-%.0f-%02.0f-%02.0f-%02.0f%02.0f%02.0f%s.txt',...
               str1,clock,str2))
     diary on
 
