@@ -169,8 +169,23 @@ end
 %% Check if need to save results and where
 isSaveMat = ~isempty(op.MatFn);
 
-%% Save op in output structure
+%% prepare outpout
 Out.op = op;
+Out.x0 = [];
+Out.f0 = [];
+Out.x = [];
+Out.f = [];
+Out.H = [];
+Out.g = [];
+Out.itct = [];
+Out.fc = [];
+Out.rc = [];
+Out.rcMsg = [];
+Out.Ritct = [];
+Out.Rrc = [];
+Out.RrcMsg = [];
+Out.MinOutput = [];
+
 
 %% Display parameters used:
 fprintf(fid,'\nGuess vector:\n');
@@ -188,16 +203,8 @@ if f0>1e50
     fprintf(fid+(fid==1),'\nWARNING: Invalid initial guess. Cannot proceed.\n');
     Out.x = x0;
     Out.f = f0;
-    Out.g = [];
-    Out.H = [];
-    Out.itctr = 0;
-    Out.fcr = 0;
     Out.rc = 8;
     Out.rcMsg = 'Invalid initial guess';
-    Out.Ritct = 0;
-    Out.Rrc = 0;
-    Out.RrcMsg = 'No Robustness performed';
-    Out.MinOutput = [];
     Out.op = op;
     if isSaveMat,save(op.MatFn,'Out');end
     return
@@ -324,7 +331,6 @@ for rit=1:op.Ritmax
     Out.rcMsg = rcErrorMsg(rcr);
     if exist('fn','var'),Out.fn = fn;end
     Out.MinOutput = MinOutput;
-    if isSaveMat,save(op.MatFn,'Out');end
 end
 
 %% Checks
@@ -419,6 +425,9 @@ Out.RrcMsg = RrcMsg;
 
 % for each minimization save the output:
 Out.MinOutput = MinOutput;
+
+% save mat file
+if isSaveMat,save(op.MatFn,'Out');end
 
 if ischar(op.LogFn), fclose(fid); end
 
