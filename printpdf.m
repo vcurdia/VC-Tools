@@ -1,48 +1,33 @@
-function []=printpdf(FileName,KeepEPS,OpenPDF)
+function printpdf(fn,varargin)
 
 % printpdf
 %
-% Prints current figure into eps and then convert it to pdf and deletes the
-% original eps file.
+% Prints current figure into pdf and adjusts paper settings
 %
-% Arguments:
-%   - FileName: (string) the name of the file (without extension)
-%   - KeepEPS: (optional)(logical) Keep both the pdf and eps files? (if
-%              this one is specified then ColorFigure needs to be specified
-%              too)
+% ...........
 %
-% Requirements:
-%   - epstopdf
-%
-% ..............................................................................
-%
-% Created: August 9, 2007 by Vasco Curdia
-% 
-% Copyright 2007-2017 by Vasco Curdia
+% Created: March 13, 2020 by Vasco Curdia
+% Copyright 2020 by Vasco Curdia
 
-% -------------------------------------------------------------------------
+    %% options
+    op.h = gcf;
+%     op.TightFig = 0;
+%     op.TightFigOptions = struct;
+    op.PaperSize = [6.5, 6.5];
+    op.PaperPosition = [0, 0, 6.5, 6.5];
+    op = updateoptions(op,varargin{:});
 
-%% Check Arguments
-if nargin==1 || isempty(KeepEPS)
-  KeepEPS = 0;
-end
-if nargin<3
-  OpenPDF = 0;
-end
 
-%% print eps file
-print('-depsc2',[FileName,'.eps'])
-
-%% convert to pdf
-eval(['!epstopdf ',FileName,'.eps'])
-
-%% delete eps file
-if ~KeepEPS
-  eval(sprintf('delete %s.eps', FileName))
-end
-
-%% open pdf
-if OpenPDF
-  open([FileName,'.pdf'])
-end
+    %% adjust paper size
+    op.h.PaperSize = op.PaperSize;
+    op.h.PaperPosition = op.PaperPosition;
     
+    %% tightfig
+%     if op.TightFig
+%         tightfig(op.h,op.Fig.Shape,hf,op.TightFigOptions)
+%     end
+
+    %% print to pdf
+    print('-dpdf',fn)
+
+end
