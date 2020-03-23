@@ -1,21 +1,16 @@
-StartTime = clock;
-h = waitbar(0,'Please wait...');
-N = 30;
-%rect = [left, bottom, width, height]
-rect = [470.2500  504.0000  270.0000   56.2500];
-set(h,'Position',rect);
+function progress(j,n,nblocks)
+% vcprogress
+% 
+% Track progress of job at step j out of n.
+%
+% Created: March 23, 2020
+% Copyright 2020 by Vasco Curdia
 
-for i=1:N, % computation here %
-    timeelapsed = num2str(etime(clock,StartTime),'%6.2f');
-    timeremain = num2str(etime(clock,StartTime)/(i/N)-etime(clock,StartTime),'%6.2f');
-    text = ['\bf' num2str(i/N*100,'%6.2f') '\rm% complete: \bf' timeelapsed '\rm sec elapsed / \bf' timeremain '\rm sec remain'];
-    waitbar(i/N,h,text)
-    pause(1);
-    
+    if nargin<3 || isempty(nblocks)
+        nblocks = 10;
+    end
+    if ~mod(j,ceil(n/nblocks)) || j==n
+        fprintf('completed %3.0f%%\n',j/n*100)
+    end
+
 end
-close(h) 
-
-
-%% -------------------
-disp (sprintf('Run Time =            %6.2f sec', etime(clock,StartTime)));
-disp (datestr(now))
