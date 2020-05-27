@@ -24,24 +24,20 @@ function pdflatex(fn,isCleanup)
 %          Does not show output on display. Can be retrieved from txt file
 %          if isCleanup=0.
 %
-% Copyright 2011 by Vasco Curdia
+% Copyright 2011-2020 by Vasco Curdia
 
-%% -----------------------------------------------------------------------------
+    if ~exist('isCleanup','var'), isCleanup = 1; end
 
-if ~exist('isCleanup','var'), isCleanup=1; end
+    eval(['!pdflatex ',fn,'.tex >> ',fn,'.txt'])
+    eval(['!pdflatex ',fn,'.tex >> ',fn,'.txt'])
+    eval(['!pdflatex ',fn,'.tex >> ',fn,'.txt'])
 
-eval(['!pdflatex ',fn,'.tex >> ',fn,'.txt'])
-eval(['!pdflatex ',fn,'.tex >> ',fn,'.txt'])
-eval(['!pdflatex ',fn,'.tex >> ',fn,'.txt'])
-
-if isCleanup
-  FileList = dir([fn,'.*']);
-  FileList = {FileList(:).name};
-  for j=1:length(FileList)
-    if ~ismember(FileList{j}(end-2:end),{'tex','pdf'})
-      delete(FileList{j})
+    if isCleanup
+        delete([fn,'.log'])
+        delete([fn,'.txt'])
+        delete([fn,'.aux'])
+        delete([fn,'.out'])
     end
-  end
+
 end
 
-%% -----------------------------------------------------------------------------
