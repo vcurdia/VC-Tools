@@ -1,5 +1,10 @@
-function jobs = showjobs(c)
-
+function showjobs(c)
+% showjobs
+% 
+% show jobs in cluster
+% 
+% Copyright (c) 2020 by Vasco Curdia
+    
     if nargin<1 || isempty(c)
         c = parcluster;
     end
@@ -21,13 +26,13 @@ function jobs = showjobs(c)
     for jj=1:njobs
         fprintf('%3.0f',jj);
         for jf=1:nfields
-            fj = fields2show{jf};
+            fj = fields{jf,1};
             if strcmp(fj,'SchedulerID')
-                fprintf(['  %',int2str(fields{jf,2}),'i'],jobs(jf).Tasks(1).SchedulerID);
+                fprintf(['  %',int2str(fields{jf,2}),'s'],jobs(jj).Tasks(1).SchedulerID);
             elseif ismember(fj,{'Name','Type','State'})
-                fprintf(['  %',int2str(fields{jf,2}),'s'],jobs(jf).(fj));
+                fprintf(['  %',int2str(fields{jf,2}),'s'],jobs(jj).(fj));
             else
-                fprintf(['  %',int2str(fields{jf,2}),'i'],jobs(jf).(fj));
+                fprintf(['  %',int2str(fields{jf,2}),'i'],jobs(jj).(fj));
             end
         end
         fprintf('\n');
