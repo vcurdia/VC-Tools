@@ -17,15 +17,22 @@ function job = vcbatch(fcn,jobname,varargin)
     op.argin = {};
     op = updateoptions(op,varargin{:});
     
+    % get cluster profile
     if isempty(op.cluster)
         c = parcluster;
     else
         c = parcluster(op.cluster);
     end
     
-    cold.EmailAddress = c.AdditionalProperties.EmailAddress;
-    cold.AdditionalSubmitArgs = c.AdditionalProperties.AdditionalSubmitArgs;
+    % store existing options
+    plist = properties(c.AdditionalProperties);
+    cold = struct;
+    for j=1:length(plist)
+        pj = plist{j};
+        cold.(pj) = c.AdditionalProperties.(pj);
+    end
 
+    % set new profile options
     c.AdditionalProperties.EmailAddress = op.email;
     if ~isempty(jobname)
         c.AdditionalProperties.AdditionalSubmitArgs = [...
@@ -33,6 +40,7 @@ function job = vcbatch(fcn,jobname,varargin)
             ' -J ',jobname];
     end
     
+    % submit script
     if op.script
         job = c.batch(fcn,'Pool',op.pool,'AutoAttachFiles',false);
     else
@@ -41,8 +49,10 @@ function job = vcbatch(fcn,jobname,varargin)
     end
     if ~isempty(jobname), job.Name = jobname; end
     
-    c.AdditionalProperties.EmailAddress = cold.EmailAddress;
-    c.AdditionalProperties.AdditionalSubmitArgs = cold.AdditionalSubmitArgs;
+    % reset cluster options
+%     c.AdditionalProperties.EmailAddress = cold.EmailAddress;
+%     c.AdditionalProperties.AdditionalSubmitArgs = cold.AdditionalSubmitArgs;
+    c.AdditionalProperties = updateoptions(c.AdditionalProperties,cold);
     
 end
 
