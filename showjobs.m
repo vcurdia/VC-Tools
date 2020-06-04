@@ -1,4 +1,4 @@
-function showjobs(c)
+function varargout = showjobs(c)
 % showjobs
 % 
 % show jobs in cluster
@@ -39,5 +39,8 @@ function showjobs(c)
     end
     fprintf('\n');
     
+    if nargout>0
+        varargout{1} = jobs;
+    end
 end
 

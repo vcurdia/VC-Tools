@@ -12,6 +12,7 @@ function job = vcbatch(fcn,jobname,varargin)
     op.cluster = '';
     op.pool = 0;
     op.email = 'vasco.curdia@sf.frb.org';
+    op.script = 1;
     op.nargout = 0;
     op.argin = {};
     op = updateoptions(op,varargin{:});
@@ -32,8 +33,12 @@ function job = vcbatch(fcn,jobname,varargin)
             ' -J ',jobname];
     end
     
-    job = c.batch(fcn,op.nargout,op.argin,'Pool',op.pool,...
-                  'AutoAttachFiles',false);
+    if op.script
+        job = c.batch(fcn,'Pool',op.pool,'AutoAttachFiles',false);
+    else
+        job = c.batch(fcn,op.nargout,op.argin,'Pool',op.pool,...
+                      'AutoAttachFiles',false);
+    end
     if ~isempty(jobname), job.Name = jobname; end
     
     c.AdditionalProperties.EmailAddress = cold.EmailAddress;
