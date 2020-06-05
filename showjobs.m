@@ -18,6 +18,7 @@ function varargout = showjobs(c)
         'Tasks',5;
         'State',10;
              };
+    if ~isempty(strfind(version,'R2018a')), fields(2,:) = []; end
     nfields = size(fields,1);
     fprintf('%3s','');
     for jf=1:nfields
