@@ -1,4 +1,4 @@
-function job = vcbatch(fcn,jobname,varargin)
+function varargout = vcbatch(fcn,jobname,varargin)
 % vcbatch
 % 
 % submit batch job
@@ -50,9 +50,10 @@ function job = vcbatch(fcn,jobname,varargin)
     if ~isempty(jobname), job.Name = jobname; end
     
     % reset cluster options
-%     c.AdditionalProperties.EmailAddress = cold.EmailAddress;
-%     c.AdditionalProperties.AdditionalSubmitArgs = cold.AdditionalSubmitArgs;
     c.AdditionalProperties = updateoptions(c.AdditionalProperties,cold);
     
+    if nargout>0
+        varargout{1} = job;
+    end
 end
 
