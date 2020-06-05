@@ -15,6 +15,7 @@ function varargout = showjobs(c)
         'SchedulerID',11;
         'Name',40;
         'Type',15;
+        'Tasks',5;
         'State',10;
              };
     nfields = size(fields,1);
@@ -28,7 +29,15 @@ function varargout = showjobs(c)
         for jf=1:nfields
             fj = fields{jf,1};
             if strcmp(fj,'SchedulerID')
-                fprintf(['  %',int2str(fields{jf,2}),'s'],jobs(jj).Tasks(1).SchedulerID);
+                list = unique({jobs(jj).Tasks(:).SchedulerID});
+                txt = sprintf(',%s',list{:});
+                fprintf(['  %',int2str(fields{jf,2}),'s'],txt(2:end));
+            elseif strcmp(fj,'NumWorkers')
+                list = unique(jobs(jj).NumWorkersRange);
+                txt = sprintf('-%i',list(:));
+                fprintf(['  %',int2str(fields{jf,2}),'s'],txt(2:end));
+            elseif strcmp(fj,'Tasks')
+                fprintf(['  %',int2str(fields{jf,2}),'i'],length(jobs(jj).Tasks));
             elseif ismember(fj,{'Name','Type','State'})
                 fprintf(['  %',int2str(fields{jf,2}),'s'],jobs(jj).(fj));
             else
