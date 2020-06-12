@@ -1,15 +1,36 @@
-function varargout = showjobs(c)
+function varargout = showjobs(varargin)
 % showjobs
 % 
 % show jobs in cluster
 % 
 % Copyright (c) 2020 by Vasco Curdia
     
-    if nargin<1 || isempty(c)
-        c = parcluster;
-    end
+    op.cluster = parallel.defaultClusterProfile();
+    op.name = '';
+    op.state = '';
+    op.tasks = [];
+    op = updateoptions(op,varargin{:});
+
+    %% load jobs and apply filter
+    c = parcluster(op.cluster);
     jobs = c.Jobs;
-    njobs = length(c.Jobs);
+    njobs = length(jobs);
+    idx = true(1,length(jobs));
+    for j=1:njobs
+        if idx(j) && ~isempty(op.name)
+            idx(j) = any(strfind(jobs(j).Name,op.name));
+        end
+        if idx(j) && ~isempty(op.state)
+            idx(j) = any(strfind(jobs(j).State,op.state));
+        end
+        if idx(j) && ~isempty(op.tasks)
+            idx(j) = any(ismember(length(jobs(j).Tasks),op.tasks));
+        end
+    end
+    jobs = jobs(idx);
+    njobs = length(jobs);
+    
+    %% show jobs
     fields = {...
         'ID',3;
         'SchedulerID',11;
