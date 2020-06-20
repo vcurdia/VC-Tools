@@ -12,6 +12,8 @@ function varargout = vcbatch(fcn,jobname,varargin)
     op.cluster = '';
     op.pool = 0;
     op.email = 'vasco.curdia@sf.frb.org';
+    op.mem = '';
+    op.joboptions = '';
     op.script = true;
     op.nargout = 0;
     op.argin = {};
@@ -33,11 +35,20 @@ function varargout = vcbatch(fcn,jobname,varargin)
     end
 
     % set new profile options
-    c.AdditionalProperties.EmailAddress = op.email;
+    if isempty(cold.EmailAddress) && ~isempty(op.email)
+        c.AdditionalProperties.EmailAddress = op.email;
+    end
     if ~isempty(jobname)
         c.AdditionalProperties.AdditionalSubmitArgs = [...
             c.AdditionalProperties.AdditionalSubmitArgs,...
             ' -J ',jobname];
+    end
+    if ~isempty(op.mem)
+        c.AdditionalProperties.MemUsage = op.mem;
+    end
+    if ~isempty(op.joboptions)
+        c.AdditionalProperties.AdditionalSubmitArgs = [...
+            c.AdditionalProperties.AdditionalSubmitArgs,' ',op.joboptions];
     end
     
     % submit script
