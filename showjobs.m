@@ -34,8 +34,8 @@ function varargout = showjobs(varargin)
     fields = {...
         'ID',3;
         'SchedulerID',11;
-        'Name',40;
-        'Type',15;
+        'Name',30;
+        'Type',10;
         'Tasks',5;
         'State',10;
              };

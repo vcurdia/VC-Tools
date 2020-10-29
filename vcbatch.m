@@ -1,14 +1,18 @@
-function varargout = vcbatch(fcn,jobname,varargin)
+function varargout = vcbatch(fcn,varargin)
 % vcbatch
 % 
 % submit batch job
 % 
 % Copyright (c) 2020 by Vasco Curdia
     
-    if nargin<2 || isempty(jobname)
-        jobname = '';
+%     if nargin<2 || isempty(jobname)
+%         jobname = '';
+%     end
+    if strcmp(class(fcn),'function_handle')
+        op.jobname = func2char(fcn);
+    else
+        op.jobname = fcn;
     end
-    
     op.cluster = '';
     op.pool = 0;
     op.email = 'vasco.curdia@sf.frb.org';
@@ -38,10 +42,10 @@ function varargout = vcbatch(fcn,jobname,varargin)
     if isempty(cold.EmailAddress) && ~isempty(op.email)
         c.AdditionalProperties.EmailAddress = op.email;
     end
-    if ~isempty(jobname)
+    if ~isempty(op.jobname)
         c.AdditionalProperties.AdditionalSubmitArgs = [...
             c.AdditionalProperties.AdditionalSubmitArgs,...
-            ' -J ',jobname];
+            ' -J ',op.jobname];
     end
     if ~isempty(op.mem)
         c.AdditionalProperties.MemUsage = op.mem;
@@ -59,7 +63,7 @@ function varargout = vcbatch(fcn,jobname,varargin)
         job = c.batch(fcn,op.nargout,op.argin,'Pool',op.pool,...
                       'AutoAttachFiles',false,'CurrentFolder','.');
     end
-    if ~isempty(jobname), job.Name = jobname; end
+    if ~isempty(op.jobname), job.Name = op.jobname; end
     
     % reset cluster options
     c.AdditionalProperties = updateoptions(c.AdditionalProperties,cold);
@@ -68,4 +72,12 @@ function varargout = vcbatch(fcn,jobname,varargin)
         varargout{1} = job;
     end
 end
+
+
+
+
+
+
+
+
 
