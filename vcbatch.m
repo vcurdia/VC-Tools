@@ -13,6 +13,8 @@ function varargout = vcbatch(fcn,varargin)
     else
         op.jobname = fcn;
     end
+    op.jobnameprefix = '';
+    op.jobnamesuffix = '';
     op.cluster = '';
     op.pool = 0;
     op.email = 'vasco.curdia@sf.frb.org';
@@ -22,6 +24,9 @@ function varargout = vcbatch(fcn,varargin)
     op.nargout = 0;
     op.argin = {};
     op = updateoptions(op,varargin{:});
+
+    %% complete job name
+    op.jobname = [op.jobnameprefix,op.jobname,op.jobnamesuffix];
     
     % get cluster profile
     if isempty(op.cluster)
