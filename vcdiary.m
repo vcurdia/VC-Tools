@@ -25,8 +25,9 @@ function vcdiary(str1,str2)
         str2 = ['-',str2];
     end
     
-    diary(sprintf('log%s-%.0f-%02.0f-%02.0f-%02.0f%02.0f%02.0f%s.txt',...
+    diary(sprintf('log%s-%.0f-%02.0f-%02.0f-%02.0f%02.0f%02.0f%s.log',...
               str1,clock,str2))
     diary on
 
+end
 
