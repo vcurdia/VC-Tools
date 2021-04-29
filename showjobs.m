@@ -31,10 +31,11 @@ function varargout = showjobs(varargin)
     njobs = length(jobs);
     
     %% show jobs
+    namelength = max(5,max(cellfun('length',{jobs(:).Name})));
     fields = {...
         'ID',3;
         'SchedulerID',11;
-        'Name',30;
+        'Name',namelength; %30
         'Type',10;
         'Tasks',5;
         'State',10;
