@@ -66,6 +66,7 @@ op.LegendString = {};
 op.LegendLocation = 'Best';
 op.LegendOrientation = 'vertical'; %'vertical','horizontal'
 op.LegendItems = [];
+op.LegendFontSize = [];
 
 %% Update options
 op = updateoptions(op,varargin{:});
@@ -119,6 +120,9 @@ if op.ShowLegend
     h.Legend = legend(h.LegendItems,op.LegendString,...
                       'Location',op.LegendLocation,...
                       'Orientation',op.LegendOrientation);
+    if ~isempty(op.LegendFontSize)
+        h.Legend.FontSize = op.LegendFontSize;
+    end
 else
     h.LegendItems = [];
     h.Legend = [];
@@ -143,3 +147,6 @@ if nargout==0
 end
 
 %% ------------------------------------------------------------------------
+
+end
+

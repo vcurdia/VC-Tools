@@ -76,6 +76,7 @@ op.PlotBands = 0;
 op.Plot = struct;
 op.Plot.LegendLocation = 'SouthOutside'; % 'SouthOutside','EmptySlot'
 op.Plot.LegendOrientation = [];
+op.Plot.LegendFontSize = [];
 op.Plot.ShowLegend = [];
 op.AxisTight = 1;
 op.YMinScale = 0; % Set to 0 if no min slack needed, but want 0 to show. 
@@ -188,6 +189,9 @@ for jPlot=1:nPlots
     if op.PlotBands
         h.Plot(jPlot) = vcplotdistbands(x,yj,opj);
     else
+        if ~isempty(op.AltData)
+            yj = [yj;op.AltData(:,:,jPlot)];
+        end
         h.Plot(jPlot) = vcplot(x,yj,opj);
     end
     if ~isempty(op.TitleList)
@@ -294,5 +298,8 @@ h.Options = op;
 
 if nargout==0
     clear h
+end
+
+
 end
 
