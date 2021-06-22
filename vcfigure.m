@@ -251,7 +251,7 @@ if ~op.ShowRecessionShades
     h.RecessionShades = [];
 end
     
-if op.Plot.ShowLegend && nPlots>1
+if op.Plot.ShowLegend
     h.Legend = h.Plot(nPlots).Legend;
     legPos = h.Legend.Position;
     if strcmp(op.Plot.LegendLocation,'SouthOutside')

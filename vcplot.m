@@ -117,6 +117,11 @@ if op.ShowLegend
         h.LegendItems = [h.LegendItems,op.LegendItems];
     end
     nLegendItems = length(h.LegendItems);
+    nLegendString = length(op.LegendString);
+    if nLegendItems>nLegendString
+        h.LegendItems = h.LegendItems(1:nLegendString);
+        nLegendItems = length(h.LegendItems);
+    end
     h.Legend = legend(h.LegendItems,op.LegendString,...
                       'Location',op.LegendLocation,...
                       'Orientation',op.LegendOrientation);
