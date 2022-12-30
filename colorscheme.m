@@ -61,7 +61,7 @@ ColorOptions.Excel2010 = [[...
 %     75   172   198;
 %    247   150    70;
    ]./256*0.85;
-   0.25 0.25 0.25; % add grey
+   0.6 0.6 0.6; % add grey
    ];
 
 BaseFactor = 1;
