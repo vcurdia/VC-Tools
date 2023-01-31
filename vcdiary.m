@@ -21,7 +21,7 @@ function vcdiary(str,logfolder)
         str = ['-',str];
     end
     
-    if nargin<2, logfolder = '.logs'; end
+    if nargin<2, logfolder = 'logs'; end
     if ~isempty(logfolder) 
         if ~strcmp(logfolder(end),'/')
             logfolder = [logfolder,'/'];
