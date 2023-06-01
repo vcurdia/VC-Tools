@@ -34,6 +34,11 @@ classdef Variables < matlab.mixin.Copyable
         function obj = Variables(v)
             if nargin>0
                 [nv,nc] = size(v);
+                if nv==1
+                    v = v.';
+                    nv = nc;
+                    nc = 1;
+                end
                 obj.Names = v(:,1);
                 if nc>1
                     obj.PrettyNames = v(:,2);
@@ -98,7 +103,8 @@ classdef Variables < matlab.mixin.Copyable
                 error('Variables not found in data.')
             end
             % idx = idx(tf); % this allowed to use only the existing variables
-            v1 = Variables([obj.Names(idx),obj.PrettyNames(idx)]);
+            v1 = Variables(obj.Names(idx));
+            v1.PrettyNames = obj.PrettyNames(idx);
         end
         
         function [tf,idx] = ismember(obj,names)
@@ -116,6 +122,18 @@ classdef Variables < matlab.mixin.Copyable
                 error('Could not find %s\n',names{~tf})
             end
             prettynames = obj.PrettyNames(idx);
+        end
+
+        function assignprettynames(obj,names,prettynames)
+            [tf,idx] = ismember(names,obj.Names);
+            if ~all(tf)
+                error('Could not find %s\n',names{~tf})
+            end
+            if length(idx)==1 && ischar(prettynames)
+                obj.PrettyNames{idx} = prettynames; 
+            else
+                obj.PrettyNames(idx) = prettynames;
+            end
         end
         
     end %methods
