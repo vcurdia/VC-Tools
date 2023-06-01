@@ -124,7 +124,7 @@ classdef Variables < matlab.mixin.Copyable
             prettynames = obj.PrettyNames(idx);
         end
 
-        function assignprettynames(obj,names,prettynames)
+        function setprettynames(obj,names,prettynames)
             [tf,idx] = ismember(names,obj.Names);
             if ~all(tf)
                 error('Could not find %s\n',names{~tf})
