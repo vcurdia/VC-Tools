@@ -41,8 +41,6 @@ classdef TimeSeries < matlab.mixin.Copyable
         T
         %NPreSample number of pre-sample periods
         NPreSample
-        %NVar number of variables in sample
-        NVar
     end
     
     methods
@@ -51,25 +49,21 @@ classdef TimeSeries < matlab.mixin.Copyable
                 fprintf('Loading data from:\n%s\n',fn)
                 obj.Source = fn;
                 raw = importdata(obj.Source);
-                keyboard
                 obj.Var = {raw.textdata{1,2:end}};
                 obj.Values = [...
                     raw.data;
-                    NaN(size(raw.textdata,1)-1-size(raw.data,1),obj.NVar)];
+                    NaN(size(raw.textdata,1)-1-size(raw.data,1),obj.Var.N)];
                 obj.TimeIdx = raw.textdata(2:end,1)';
             end
         end
         
-        function set.Var(obj,Var)
-            if ~isempty(obj.Var)
-                [tf,idx] = ismember(Var,obj.Var);
-                if ~all(tf)
-                    error('Variables not found in data.')
-                end
+        function set.Var(obj,v)
+            if isempty(obj.Var)
+                obj.Var = Variables(v);
+            else
+                [obj.Var,idx] = subset(obj.Var,v);
                 obj.Values = obj.Values(:,idx);
             end
-            obj.Var = Var;
-            obj.NVar = length(Var);
         end
         
         function set.TimeIdx(obj,tid)
