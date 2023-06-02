@@ -15,10 +15,10 @@ classdef TimeSeries < matlab.mixin.Copyable
 % Values matrix with all data values
         Values
 
-% TimeIdx list of dates in data sample
-        TimeIdx
+% Time Time object with dates in data sample
+        Time
 
-% Variables object
+% Var Variables object
 %   Variable names need to be matched to observable variable names in 
 %   the DSGE model.
         Var = Variables;
@@ -33,12 +33,6 @@ classdef TimeSeries < matlab.mixin.Copyable
     end
 
     properties (SetAccess=protected)
-        %TimeStart Date of first period in sample
-        TimeStart
-        %TimeEnd Date of last period in sample
-        TimeEnd
-        %T number of periods in sample
-        T
         %NPreSample number of pre-sample periods
         NPreSample
     end
@@ -53,7 +47,7 @@ classdef TimeSeries < matlab.mixin.Copyable
                 obj.Values = [...
                     raw.data;
                     NaN(size(raw.textdata,1)-1-size(raw.data,1),obj.Var.N)];
-                obj.TimeIdx = raw.textdata(2:end,1)';
+                obj.Time = raw.textdata(2:end,1)';
             end
         end
         
@@ -66,33 +60,26 @@ classdef TimeSeries < matlab.mixin.Copyable
             end
         end
         
-        function set.TimeIdx(obj,tid)
-            if length(tid)==2
-                tid = timeidx(tid{:});
+        function set.Time(obj,t)
+            t = timeidx(t{[1,end]});
+            if ~isempty(obj.Time)
+                [tf,idx] = ismember(obj.TimeIdx,t);
+                if ~all(tf) error('could not find all the time periods') end
+                obj.Values = obj.Values(idx,:);
             end
-            if ~isempty(obj.TimeIdx)
-                obj.Values = obj.Values(ismember(obj.TimeIdx,tid),:);
-            end
-            obj.TimeIdx = tid;
-            obj.T = length(tid);
-            obj.TimeStart = tid{1};
-            obj.TimeEnd = tid{end};
-            if isempty(obj.SampleStart) ...
-                    || ~ismember(obj.SampleStart,obj.TimeIdx)
-                obj.SampleStart = obj.TimeStart;
-            end
+            obj.Time = t;
         end
         
         function set.SampleStart(obj,t)
-            if ~ismember(t,obj.TimeIdx)
+            if ~obj.Time.ismember(t)
                 error('Requested SampleStart out of data scope.')
             end
             obj.SampleStart = t;
-            obj.NPreSample = find(ismember(obj.TimeIdx,obj.SampleStart))-1;
+            obj.NPreSample = find(ismember(obj.Time.Labels,obj.SampleStart))-1;
         end
         
         function set.TickLabels(obj,tList)
-            obj.TickLabels = tList(ismember(tList,obj.TimeIdx));
+            obj.TickLabels = tList(ismember(tList,obj.Time.Labels));
         end
         
     end %methods
