@@ -15,21 +15,21 @@ classdef TimeSeries < matlab.mixin.Copyable
 % Values matrix with all data values
         Values
 
-% Time Time object with dates in data sample
-        Time
-
 % Var Variables object
 %   Variable names need to be matched to observable variable names in 
 %   the DSGE model.
         Var = Variables;
+
+% Time Time object with dates in data sample
+        Time
 
 % SampleStart Date in which the likelihood starts counting
 %   Prior periods are considered to be pre-sample to calibrate the 
 %   Kalman Filter but not counting towards the likelihood value.
         SampleStart
         
-% TickLabels (optional) array of ticks to show in plots
-        TickLabels
+% Ticks (optional) Time object with labels and IDs of ticks to show in plots
+        Ticks
     end
 
     properties (SetAccess=protected)
@@ -48,6 +48,7 @@ classdef TimeSeries < matlab.mixin.Copyable
                     raw.data;
                     NaN(size(raw.textdata,1)-1-size(raw.data,1),obj.Var.N)];
                 obj.Time = raw.textdata(2:end,1)';
+                obj.SampleStart = obj.Time.Labels{1};
             end
         end
         
@@ -61,13 +62,20 @@ classdef TimeSeries < matlab.mixin.Copyable
         end
         
         function set.Time(obj,t)
-            t = timeidx(t{[1,end]});
-            if ~isempty(obj.Time)
-                [tf,idx] = ismember(obj.TimeIdx,t);
-                if ~all(tf) error('could not find all the time periods') end
+            t = Time(t{[1,end]});
+            if isempty(obj.Time)
+                obj.Time = t;
+            else
+                [tf,idx] = ismember(obj.Time,t);
+                if ~all(tf)
+                    error('Could not find all the time periods')
+                end
+                obj.Time = t;
                 obj.Values = obj.Values(idx,:);
+                if ~isempty(obj.Ticks)
+                    obj.Ticks = obj.Ticks.Labels;
+                end
             end
-            obj.Time = t;
         end
         
         function set.SampleStart(obj,t)
@@ -78,8 +86,8 @@ classdef TimeSeries < matlab.mixin.Copyable
             obj.NPreSample = find(ismember(obj.Time.Labels,obj.SampleStart))-1;
         end
         
-        function set.TickLabels(obj,tList)
-            obj.TickLabels = tList(ismember(tList,obj.Time.Labels));
+        function set.Ticks(obj,t)
+            obj.Ticks = subset(obj.Time,t);
         end
         
     end %methods

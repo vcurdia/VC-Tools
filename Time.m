@@ -89,9 +89,7 @@ classdef Time < matlab.mixin.Copyable
                 obj.ID = 1:obj.N;
             else
                 [tf,idx] = ismember(labels,obj.Labels);
-                if ~all(tf)
-                    error('requesting time labels not present in object.')
-                end
+                idx = idx(tf); % pick only existing labels
                 obj.Labels = obj.Labels(idx);
                 obj.ID = obj.ID(idx);
                 obj.N = length(obj.Labels);
