@@ -9,8 +9,8 @@ classdef TimeSeries < matlab.mixin.Copyable
 % Copyright 2017-2023 Vasco Curdia
     
     properties
-% Source Location of source csv file (used to load the data)
-        Source
+% Filename of source csv file (used to load the data)
+        Filename
         
 % Values matrix with all data values
         Values
@@ -38,17 +38,21 @@ classdef TimeSeries < matlab.mixin.Copyable
     end
     
     methods
-        function obj = TimeSeries(fn)
+        function obj = TimeSeries(data)
             if nargin>0
-                fprintf('Loading data from:\n%s\n',fn)
-                obj.Source = fn;
-                raw = importdata(obj.Source);
-                obj.Var = {raw.textdata{1,2:end}};
-                obj.Values = [...
-                    raw.data;
-                    NaN(size(raw.textdata,1)-1-size(raw.data,1),obj.Var.N)];
-                obj.Time = raw.textdata(2:end,1)';
-                obj.SampleStart = obj.Time.Labels{1};
+                if isa(data,'TimeSeries')
+                    obj = copy(data);
+                else
+                    fprintf('Loading data from:\n%s\n',data)
+                    obj.Filename = data;
+                    raw = importdata(obj.Filename);
+                    obj.Var = {raw.textdata{1,2:end}};
+                    obj.Values = [...
+                        raw.data;
+                        NaN(size(raw.textdata,1)-1-size(raw.data,1),obj.Var.N)];
+                    obj.Time = raw.textdata(2:end,1)';
+                    obj.SampleStart = obj.Time.Labels{1};
+                end
             end
         end
         
@@ -85,9 +89,59 @@ classdef TimeSeries < matlab.mixin.Copyable
             obj.SampleStart = t;
             obj.NPreSample = find(ismember(obj.Time.Labels,obj.SampleStart))-1;
         end
-        
+
         function set.Ticks(obj,t)
             obj.Ticks = subset(obj.Time,t);
+        end
+        
+        function [tnan,tfnan] = getnan(obj)
+            tfnan = any(isnan(obj.Values),2);
+            tnan = subset(obj.Time,obj.Time.Labels(tfnan));
+        end
+
+        function varnan = getnanvar(obj)
+            [tnan,tfnan] = getnan(obj);
+            varnan = cell(tnan.N,1);
+            for j=1:tnan.N
+                varnan{j} = {obj.Var.Names{isnan(obj.Values(tnan.ID(j),:))}};
+            end
+        end
+        
+        function removenan(obj)
+            [tnan,tfnan] = getnan(obj);
+            if ~isempty(tnan)
+                fprintf('Warning: NaN found.\n')
+                if tnan.ID(1)==1
+                    for jstart=1:tnan.N-1
+                        if tnan.ID(jstart+1)>tnan.ID(jstart)+1
+                            break
+                        end
+                    end
+                    newstart = obj.Time.Labels{tnan.ID(jstart)+1};
+                    fprintf('Corrected start date: %s\n',newstart)
+                else
+                    jstart = 0;
+                end
+                if tnan.ID(end)==obj.Time.N
+                    for jend=tnan.N:-1:jstart+1
+                        if tnan.ID(jend-1)<tnan.ID(jend)-1
+                            break
+                        end
+                    end
+                    newend = obj.Time.Labels{tnan.ID(jend)-1};
+                    fprintf('Corrected end date: %s\n',newend)
+                else
+                    jend = tnan.N+1;
+                end
+                if jend>jstart+1
+                    fprintf('list of dates with NaN:\n')
+                    fprintf('%s\n',obj.Time.Labels{tfnan})
+                    error('NaN dates in middle of sample, cannot proceed.')
+                else
+                    obj.Time = {newstart,newend};
+                end
+            end
+
         end
         
     end %methods
