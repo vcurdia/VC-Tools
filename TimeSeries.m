@@ -112,26 +112,37 @@ classdef TimeSeries < matlab.mixin.Copyable
             if ~isempty(tnan)
                 fprintf('Warning: NaN found.\n')
                 if tnan.ID(1)==1
-                    for jstart=1:tnan.N-1
-                        if tnan.ID(jstart+1)>tnan.ID(jstart)+1
-                            break
+                    if tnan.N==1
+                        start = 1;
+                    else
+                        for jstart=1:tnan.N-1
+                            if tnan.ID(jstart+1)>tnan.ID(jstart)+1
+                                break
+                            end
                         end
                     end
                     newstart = obj.Time.Labels{tnan.ID(jstart)+1};
                     fprintf('Corrected start date: %s\n',newstart)
                 else
                     jstart = 0;
+                    newstart = obj.Time.Labels{1};
                 end
                 if tnan.ID(end)==obj.Time.N
-                    for jend=tnan.N:-1:jstart+1
-                        if tnan.ID(jend-1)<tnan.ID(jend)-1
-                            break
+                    if tnan.N==1
+                        jend = tnan.N;
+                    else
+                        for jend=tnan.N:-1:jstart+2
+                            keyboard
+                            if tnan.ID(jend-1)<tnan.ID(jend)-1
+                                break
+                            end
                         end
                     end
                     newend = obj.Time.Labels{tnan.ID(jend)-1};
                     fprintf('Corrected end date: %s\n',newend)
                 else
                     jend = tnan.N+1;
+                    newend = obj.Time.Labels{end};
                 end
                 if jend>jstart+1
                     fprintf('list of dates with NaN:\n')
