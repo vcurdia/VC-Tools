@@ -112,13 +112,9 @@ classdef TimeSeries < matlab.mixin.Copyable
             if ~isempty(tnan)
                 fprintf('Warning: NaN found.\n')
                 if tnan.ID(1)==1
-                    if tnan.N==1
-                        start = 1;
-                    else
-                        for jstart=1:tnan.N-1
-                            if tnan.ID(jstart+1)>tnan.ID(jstart)+1
-                                break
-                            end
+                    for jstart=1:tnan.N
+                        if jstart==tnan.N || tnan.ID(jstart+1)>tnan.ID(jstart)+1
+                            break
                         end
                     end
                     newstart = obj.Time.Labels{tnan.ID(jstart)+1};
@@ -128,14 +124,9 @@ classdef TimeSeries < matlab.mixin.Copyable
                     newstart = obj.Time.Labels{1};
                 end
                 if tnan.ID(end)==obj.Time.N
-                    if tnan.N==1
-                        jend = tnan.N;
-                    else
-                        for jend=tnan.N:-1:jstart+2
-                            keyboard
-                            if tnan.ID(jend-1)<tnan.ID(jend)-1
-                                break
-                            end
+                    for jend=tnan.N:-1:jstart+1
+                        if jend==jstart+1 || tnan.ID(jend-1)<tnan.ID(jend)-1
+                            break
                         end
                     end
                     newend = obj.Time.Labels{tnan.ID(jend)-1};
