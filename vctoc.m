@@ -36,6 +36,7 @@ if nargin==1
 else
     sElapsed = toc;
 end
+tElapsed = sElapsed;
 
 hElapsed = fix(sElapsed/(60^2));
 sElapsed = sElapsed - hElapsed*(60^2);
@@ -48,7 +49,7 @@ rElapsed = fix(100*rElapsed);
 txt = 'Elapsed time ';
 if hElapsed>0, txt = sprintf('%s %.0fh',txt,hElapsed); end
 if (mElapsed>0)||(hElapsed>0), txt = sprintf('%s %.0fm',txt,mElapsed); end
-txt = sprintf('%s %.0fs %02.0f',txt,sElapsed,rElapsed);
+txt = sprintf('%s %.0fs %02.0f (%.2fs)',txt,sElapsed,rElapsed,tElapsed);
 
 if nargout==1
     out = txt;
