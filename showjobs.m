@@ -36,7 +36,7 @@ function varargout = showjobs(varargin)
         'ID',3;
         'SchedulerID',11;
         'Name',namelength; %30
-        'Type',10;
+        'Type',11;
         'Tasks',5;
         'State',10;
              };
