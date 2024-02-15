@@ -1,18 +1,21 @@
-function varargout = showjobs(varargin)
+function varargout = showjobs(c,varargin)
 % showjobs
 % 
 % show jobs in cluster
 % 
-% Copyright (c) 2020 by Vasco Curdia
-    
-    op.cluster = parallel.defaultClusterProfile();
+% Copyright (c) 2020-2024 by Vasco Curdia
+
     op.name = '';
     op.state = '';
     op.tasks = [];
     op = updateoptions(op,varargin{:});
 
     %% load jobs and apply filter
-    c = parcluster(op.cluster);
+    if nargin==0 || isempty(c)
+        c = parcluster;
+    elseif ischar(c)
+        c = parcluster(c);
+    end
     jobs = c.Jobs;
     njobs = length(jobs);
     idx = true(1,length(jobs));
@@ -31,6 +34,7 @@ function varargout = showjobs(varargin)
     njobs = length(jobs);
     
     %% show jobs
+    fprintf('Jobs from cluster profile %s\n',c.Profile)
     namelength = max(5,max(cellfun('length',{jobs(:).Name})));
     fields = {...
         'ID',3;
