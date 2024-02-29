@@ -140,7 +140,11 @@ op.Bands2Show = sort(op.Bands2Show,'descend');
 nBands = length(op.Bands2Show);
 InitHold = ishold;
 BandsData = zeros(nBands*2,nx);
-BandColorSlope = [-1,1]*op.ShadeFactors'/([1,-1]*op.Bands2Show([1,nBands])');
+if nBands==1
+    BandColorSlope = 0;
+else
+    BandColorSlope = [-1,1]*op.ShadeFactors'/([1,-1]*op.Bands2Show([1,nBands])');
+end
 BandColorCt = op.ShadeFactors(1)-BandColorSlope*op.Bands2Show(nBands);
 for jB=1:nBands
     Band = op.Bands2Show(jB);
