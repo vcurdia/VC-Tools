@@ -2,11 +2,11 @@ function vcdiary(str,logfolder)
 
 % vcdiary
 %
-% Starts diary with date and time.
+% Starts diary with date and time, saved with "txt" extension.
 % 
 % str if provided will be added after date/time stamp
 % logfolder
-% - if not provided, log will be saved in subfolder .logs/
+% - if not provided, log will be saved in subfolder logs/
 % - if empty, log will be saved in current folder
 %
 % See also:
@@ -31,8 +31,7 @@ function vcdiary(str,logfolder)
         end
     end
     
-    diary(sprintf('%s%.0f-%02.0f-%02.0f-%02.0f%02.0f%02.0f%s.log',...
-              logfolder,clock,str))
+    diary(sprintf('%s%.0f-%02.0f-%02.0f-%02.0f%02.0f%02.0f%s.txt',logfolder,clock,str))
     diary on
 
 end
