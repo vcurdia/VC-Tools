@@ -1,9 +1,9 @@
 function varargout = vcbatch(fcn,varargin)
 % vcbatch
 % 
-% submit batch job
+% submit batch job using slurm integration
 % 
-% Copyright (c) 2020 by Vasco Curdia
+% Copyright (c) 2020-2024 by Vasco Curdia
     
 %     if nargin<2 || isempty(jobname)
 %         jobname = '';
