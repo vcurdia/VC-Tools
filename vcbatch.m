@@ -1,4 +1,4 @@
-function varargout = vcbatch(fcn,varargin)
+function varargout = vcbatch(fcn,npool,varargin)
 % vcbatch
 % 
 % submit batch job using slurm integration
@@ -16,7 +16,11 @@ function varargout = vcbatch(fcn,varargin)
     op.jobnameprefix = '';
     op.jobnamesuffix = '';
     op.cluster = '';
-    op.pool = 0;
+    if nargin<2 ||isempty(npool)
+        op.pool = 0;
+    else
+        op.pool = npool;
+    end
     op.email = 'vasco.curdia@sf.frb.org';
     op.mem = '';
     op.joboptions = '';
