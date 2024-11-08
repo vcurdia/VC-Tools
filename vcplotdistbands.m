@@ -22,7 +22,7 @@ function h = vcplotdistbands(y,varargin)
 %
 %   Bands2Show
 %   Percent intervals to be shown in the plots, centered around median.
-%   Default: [50,60,70,80,90]
+%   Default: [50,70,90]
 %
 %   MedianColor
 %   Color of median line.
@@ -58,8 +58,7 @@ function h = vcplotdistbands(y,varargin)
 % ..............................................................................
 %
 % Created: October 30, 2008 by Vasco Curdia
-% 
-% Copyright 2008-2017 by Vasco Curdia
+% Copyright 2008-2024 by Vasco Curdia
 
 %% ------------------------------------------------------------------------
 
@@ -107,6 +106,7 @@ op.ShadeFactors = [0.1,0.65]; % shade factors at 50 and 90%
 % MedianColor = [0,0,0.7];
 % ShadeColor = [0.2,0.6,0.5];
 op.FaceAlpha = 1;
+op.Compare = 0;
 
 %% Update options
 op = updateoptions(op,varargin{:});
@@ -134,6 +134,17 @@ nx = size(y,2);
 if ~exist('x','var')
     x = 1:nx;
 end
+
+%% check number of vars to plot in
+
+%% add option for multiple variables with bankds plotted
+
+%% use alpha transparency
+
+%% allow data to be already in bands, rather than raw data
+
+%% if multiple series, add legend for series, not bands
+
 
 %% Plot bands
 op.Bands2Show = sort(op.Bands2Show,'descend');
