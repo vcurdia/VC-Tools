@@ -16,13 +16,11 @@ function h = vcplot(y,varargin)
 % See also:
 % vcfigure, vcplotdistbands, colorscheme
 %
-% .........................................................................
+% ---
 %
 % Created: April 24, 2013
-%
-% Copyright 2013-2017 by Vasco Rafael da Silva Curdia
+% Copyright 2013-2024 by Vasco Rafael da Silva Curdia
 
-%% ---------------------------------------------------------------------
 
 %% Check main input
 if nargin==0
@@ -56,7 +54,7 @@ op.LineMarker = repmat({'none'},1,ny);
 % op.LineMarkerSize = [1,1,1,2,2,2];
 op.LineMarkerSize = ones(1,ny);
 % op.LineWidth = [1,1,1,0.5,0.5,0.5];
-op.LineWidth = ones(1,ny);
+op.LineWidth = 2*ones(1,ny);
 op.ShowZeroLine = 1;
 op.ZeroLineColor = 'k';
 op.ZeroLineStyle = '-';
