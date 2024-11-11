@@ -65,9 +65,6 @@ if ~isempty(varargin) && isnumeric(varargin{1})
     varargin(1) = [];
 end
 
-%% Some dimensions
-[ny,nx,nPlots] = size(y);
-
 %% Default Options
 op.NewFig = 1;
 op.Visible = 'on';
@@ -100,19 +97,29 @@ op.PaperSize = [6.5, 6.5];
 op.PaperPosition = [];
 op.TightFig = 1;
 op.TightFigOptions = struct;
+op.BandsCompare = 0;
 
 op = updateoptions(op,varargin{:});
+
+%% Some dimensions
+if op.PlotBands
+    if ndims(y)==4, op.BandsCompare = 1; end
+    if op.BandsCompare
+        [~,nx,ny,nPlots] = size(y);
+    else
+        [~,nx,nPlots] = size(y);
+        ny = 1;
+    end
+    if ~isempty(op.AltData)
+        ny = ny+size(op.AltData,1);
+    end
+else
+    [ny,nx,nPlots] = size(y);
+end
 
 %% Check options
 if ~isempty(op.PaperSize) && isempty(op.PaperPosition)
     op.PaperPosition = [0, 0, op.PaperSize(1), op.PaperSize(2)];
-end
-if op.PlotBands
-    if ~isempty(op.AltData)
-        ny = 1+size(op.AltData,1);
-    else
-        ny = 1;
-    end
 end
 if isempty(op.Plot.ShowLegend)
 %   op.Plot.ShowLegend = (ny>1) && (~o.PlotBands);
@@ -170,7 +177,6 @@ op.ShowRecessionShades = ~isempty(op.RecessionShades);
 %% Plot data
 for jPlot=1:nPlots
     h.SubPlot(jPlot) = subplot(op.Shape{:},jPlot);
-    yj = y(:,:,jPlot);
     opj = op.Plot;
     if ~isempty(op.AltData)
         opj.AltData = op.AltData(:,:,jPlot);
@@ -189,10 +195,7 @@ for jPlot=1:nPlots
     if op.PlotBands
         h.Plot(jPlot) = vcplotdistbands(x,yj,opj);
     else
-        if ~isempty(op.AltData)
-            yj = [yj;op.AltData(:,:,jPlot)];
-        end
-        h.Plot(jPlot) = vcplot(x,yj,opj);
+        h.Plot(jPlot) = vcplot(x,[y(:,:,jPlot);op.AltData(:,:,jPlot)],opj);
     end
     if ~isempty(op.TitleList)
         hh = title(op.TitleList{jPlot});
