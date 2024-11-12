@@ -104,7 +104,7 @@ function h = vcplotdistbands(y,varargin)
                                  % op.ShadeFactors = [0.1,0.7]; % shade factors at 50 and 90%
                                  % MedianColor = [0,0,0.7];
                                  % ShadeColor = [0.2,0.6,0.5];
-    op.ShadeAlpha = 0.2:0.01:0.25; %ones(10,1); %0.2:0.01:0.25;
+    op.ShadeAlpha = 0.3:0.01:0.35; %ones(10,1); %0.2:0.01:0.25;
     op.YHasBands = 0;
     op.Compare = 0;
 
@@ -157,7 +157,7 @@ function h = vcplotdistbands(y,varargin)
         for jB=1:nBands
             Band = op.Bands2Show(jB);
             BandPath = BandsData((jB-1)*2+[1,2],:,jy);
-            op.ShadeColor = op.LineColor(jy,:)*0.8;
+            op.ShadeColor = op.LineColor(jy,:)*0.9;
             BandColor = op.ShadeColor+...
                 (1-op.ShadeColor)*(BandColorCt+BandColorSlope*Band);
             h.Bands(jB) = fill([x,x(end:-1:1)],[BandPath(1,:),BandPath(2,end:-1:1)],...

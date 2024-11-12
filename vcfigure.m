@@ -178,8 +178,13 @@ op.ShowRecessionShades = ~isempty(op.RecessionShades);
 for jPlot=1:nPlots
     h.SubPlot(jPlot) = subplot(op.Shape{:},jPlot);
     opj = op.Plot;
-    if ~isempty(op.AltData)
-        opj.AltData = op.AltData(:,:,jPlot);
+    opj.AltData = op.AltData;
+    if ~isempty(opj.AltData)
+        if size(opj.AltData,3)==1
+            opj.AltData = opj.AltData;
+        else
+            opj.AltData = opj.AltData(:,:,jPlot);
+        end
     end
     if op.Plot.ShowLegend && jPlot==nPlots
         opj.ShowLegend = 1;
@@ -193,9 +198,13 @@ for jPlot=1:nPlots
         opj.ShowLegend = 0;
     end
     if op.PlotBands
-        h.Plot(jPlot) = vcplotdistbands(x,yj,opj);
+        if op.BandsCompare
+            h.Plot(jPlot) = vcplotdistbands(x,y(:,:,:,jPlot),opj);
+        else
+            h.Plot(jPlot) = vcplotdistbands(x,y(:,:,jPlot),opj);
+        end
     else
-        h.Plot(jPlot) = vcplot(x,[y(:,:,jPlot);op.AltData(:,:,jPlot)],opj);
+        h.Plot(jPlot) = vcplot(x,[y(:,:,jPlot);opj.AltData],opj);
     end
     if ~isempty(op.TitleList)
         hh = title(op.TitleList{jPlot});
