@@ -104,7 +104,7 @@ function h = vcplotdistbands(y,varargin)
                                  % op.ShadeFactors = [0.1,0.7]; % shade factors at 50 and 90%
                                  % MedianColor = [0,0,0.7];
                                  % ShadeColor = [0.2,0.6,0.5];
-    op.ShadeAlpha = 0.3:0.01:0.35; %ones(10,1); %0.2:0.01:0.25;
+    op.ShadeAlpha = 0.5+(0:0.01:0.05); %ones(10,1); %0.2:0.01:0.25;
     op.YHasBands = 0;
     op.Compare = 0;
 
