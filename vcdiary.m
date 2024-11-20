@@ -31,7 +31,7 @@ function vcdiary(str,logfolder)
         end
     end
     
-    diary(sprintf('%s%.0f-%02.0f-%02.0f-%02.0f%02.0f%02.0f%s.txt',logfolder,clock,str))
+    diary(sprintf('%s%.0f-%02.0f-%02.0f-%02.0f%02.0f%02.0f%s.log',logfolder,clock,str))
     diary on
 
 end
