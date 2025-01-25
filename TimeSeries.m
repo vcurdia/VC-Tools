@@ -93,7 +93,7 @@ classdef TimeSeries < matlab.mixin.Copyable
         function set.Ticks(obj,t)
             obj.Ticks = subset(obj.Time,t);
         end
-        
+
         function [tnan,tfnan] = getnan(obj)
             tfnan = any(isnan(obj.Values),2);
             tnan = subset(obj.Time,obj.Time.Labels(tfnan));
@@ -104,6 +104,19 @@ classdef TimeSeries < matlab.mixin.Copyable
             varnan = cell(tnan.N,1);
             for j=1:tnan.N
                 varnan{j} = {obj.Var.Names{isnan(obj.Values(tnan.ID(j),:))}};
+            end
+        end
+
+        function shownan(obj)
+            [tnan,tfnan] = getnan(obj);
+            if ~isempty(tnan)
+                fprintf('Warning: NaN found.\n')
+                varnan = obj.getnanvar;
+                for t=1:tnan.N
+                    fprintf('%s:',tnan.Labels{t})
+                    fprintf(' %s',varnan{t}{:})
+                    fprintf('\n')
+                end
             end
         end
         
@@ -144,6 +157,43 @@ classdef TimeSeries < matlab.mixin.Copyable
                 end
             end
 
+        end
+
+        function y = getvalues(obj,v)
+            if ~iscell(v), v = {v}; end
+            [tf,idx] = obj.Var.ismember(v);
+            if ~all(tf)
+                error('Variables not found in data.')
+            end
+            y = obj.Values(:,idx);
+        end
+        
+        function showvalues(obj,v)
+            if ~iscell(v), v = {v}; end
+            [tf,idx] = obj.Var.ismember(v);
+            if ~all(tf)
+                error('Variables not found in data.')
+            end
+            fprintf('%6s','')
+            fprintf('  %10s',v{:})
+            fprintf('\n')
+            for t=1:obj.Time.N
+                fprintf('%6s',obj.Time.Labels{t})
+                fprintf('  %10.3f',obj.Values(t,idx))
+                fprintf('\n')
+            end
+        end
+        
+        function add(obj,v,values)
+            if ~iscell(v), v = {v}; end
+            nv = length(v);
+            [tf,idx] = obj.Var.ismember(v);
+            if any(tf)
+                vnames = sprintf('%s ',v{tf});
+                error('Variable(s) already present in dataset: %s',vnames)
+            end
+            obj.Var.add(v);
+            obj.Values(:,end+(1:nv)) = values;
         end
         
     end %methods
