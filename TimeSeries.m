@@ -66,16 +66,17 @@ classdef TimeSeries < matlab.mixin.Copyable
         end
         
         function set.Time(obj,t)
-            t = Time(t{[1,end]});
+            if iscell(t)
+                t = Time(t{[1,end]});
+            end
             if isempty(obj.Time)
                 obj.Time = t;
             else
                 [tf,idx] = ismember(obj.Time,t);
-                if ~all(tf)
-                    error('Could not find all the time periods')
-                end
+                values = nan(t.N,obj.Var.N);
+                values(tf,:) = obj.Values(idx(tf),:);
                 obj.Time = t;
-                obj.Values = obj.Values(idx,:);
+                obj.Values = values;
                 if ~isempty(obj.Ticks)
                     obj.Ticks = obj.Ticks.Labels;
                 end
