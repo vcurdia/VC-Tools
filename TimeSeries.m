@@ -6,34 +6,34 @@ classdef TimeSeries < matlab.mixin.Copyable
 % other empirical  explorations
 %
 % Created: June 1, 2017
-% Copyright 2017-2023 Vasco Curdia
+% Copyright 2017-2025 Vasco Curdia
     
     properties
-% Filename of source csv file (used to load the data)
-        Filename
+        % Source csv filename (used to load the data)
+        Source
         
-% Values matrix with all data values
+        % Values matrix with all data values
         Values
 
-% Var Variables object
-%   Variable names need to be matched to observable variable names in 
-%   the DSGE model.
+        % Var Variables object
+        %   Variable names need to be matched to observable variable names in 
+        %   the DSGE model.
         Var = Variables;
 
-% Time Time object with dates in data sample
+        % Time Time object with dates in data sample
         Time
 
-% SampleStart Date in which the likelihood starts counting
-%   Prior periods are considered to be pre-sample to calibrate the 
-%   Kalman Filter but not counting towards the likelihood value.
+        % SampleStart Date in which the likelihood starts counting
+        %   Prior periods are considered to be pre-sample to calibrate the 
+        %   Kalman Filter but not counting towards the likelihood value.
         SampleStart
         
-% Ticks (optional) Time object with labels and IDs of ticks to show in plots
+        % Ticks (optional) Time object with labels and IDs of ticks to show in plots
         Ticks
     end
 
     properties (SetAccess=protected)
-        %NPreSample number of pre-sample periods
+        % NPreSample number of pre-sample periods
         NPreSample
     end
     
@@ -44,8 +44,8 @@ classdef TimeSeries < matlab.mixin.Copyable
                     obj = copy(data);
                 else
                     fprintf('Loading data from:\n%s\n',data)
-                    obj.Filename = data;
-                    raw = importdata(obj.Filename);
+                    obj.Source = data;
+                    raw = importdata(obj.Source);
                     obj.Var = {raw.textdata{1,2:end}};
                     obj.Values = [...
                         raw.data;
@@ -175,7 +175,7 @@ classdef TimeSeries < matlab.mixin.Copyable
             if ~all(tf)
                 error('Variables not found in data.')
             end
-            fprintf('%6s','')
+            fprintf('\n%6s','')
             fprintf('  %10s',v{:})
             fprintf('\n')
             for t=1:obj.Time.N
@@ -183,6 +183,7 @@ classdef TimeSeries < matlab.mixin.Copyable
                 fprintf('  %10.3f',obj.Values(t,idx))
                 fprintf('\n')
             end
+            fprintf('\n')
         end
         
         function add(obj,v,values)
