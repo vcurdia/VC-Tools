@@ -171,16 +171,29 @@ classdef TimeSeries < matlab.mixin.Copyable
         
         function showvalues(obj,v)
             if ~iscell(v), v = {v}; end
-            [tf,idx] = obj.Var.ismember(v);
-            if ~all(tf)
-                error('Variables not found in data.')
-            end
+            y = obj.getvalues(v)
             fprintf('\n%6s','')
             fprintf('  %10s',v{:})
             fprintf('\n')
             for t=1:obj.Time.N
                 fprintf('%6s',obj.Time.Labels{t})
-                fprintf('  %10.3f',obj.Values(t,idx))
+                fprintf('  %10.3f',y(t,:))
+                fprintf('\n')
+            end
+            fprintf('\n')
+        end
+        
+        function showstats(obj,v)
+            if ~iscell(v), v = {v}; end
+            s = stats(obj.getvalues(v));
+            fprintf('\n%6s','')
+            fprintf('  %10s',v{:})
+            fprintf('\n')
+            slist = fieldnames(s);
+            for js=1:length(slist)
+                sj = slist{js};
+                fprintf('%6s',sj)
+                fprintf('  %10.3f',s.(sj))
                 fprintf('\n')
             end
             fprintf('\n')
