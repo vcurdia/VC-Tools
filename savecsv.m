@@ -12,11 +12,11 @@ function savecsv(fn,var,tid,data)
         end
     end
 
-    fprintf(fidcsv,', %s',var{:});
+    fprintf(fidcsv,',%s',var{:});
     fprintf(fidcsv,'\n');
     for t=1:ntid
         fprintf(fidcsv,'%s',tid{t});
-        fprintf(fidcsv,', %.6f',data(t,:));
+        fprintf(fidcsv,',%.6f',data(t,:));
         fprintf(fidcsv,'\n');
     end
     
