@@ -1,4 +1,4 @@
-function [REE,eu] = perfectforesightree(StateEq,regidx,shocks,varargin)
+function [REE,eu] = perfectforesightree(REE0,StateEq,regidx,shocks,varargin)
 
 % perfectforesightree
 %
@@ -66,7 +66,7 @@ nMatList = 5;
 isshocks = exist('shocks','var') && ~isempty(shocks);
 
 %% Run checks
-if isshocks && (size(shocks,2)~=T)
+if isshocks
     [nshockvar,nshocks] = size(shocks);
     if nshocks<T
         shocks = [shocks,zeros(nshockvar,T-nshocks)];
